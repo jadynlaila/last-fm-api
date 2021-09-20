@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Rundown = () => {
+const Genres = () => {
     return (
         <div>
-            rundown page here
+            genre page here
         </div>
     )
 }
 
-export default Rundown
+export default Genres

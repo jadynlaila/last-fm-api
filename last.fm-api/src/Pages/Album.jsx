@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Rundown = () => {
+const Album = () => {
     return (
         <div>
-            rundown page here
+            album page here
         </div>
     )
 }
 
-export default Rundown
+export default Album

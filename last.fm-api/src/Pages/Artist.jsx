@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Rundown = () => {
+const Artist = () => {
     return (
         <div>
-            rundown page here
+            artist page here    
         </div>
     )
 }
 
-export default Rundown
+export default Artist
