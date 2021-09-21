@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMusicContext } from "../util/context";
 
 const Home = () => {
-  const { setUser, user, handleUserSet, consolecheck } = useMusicContext();
-  console.log(user);
+  const { setUser, user, handleUserSet, submitUserName, topTracks, fetchTopTracks } = useMusicContext();
   return (
     <div className="home">
       <form onSubmit={(e) => e.preventDefault()} user={user}>
@@ -11,12 +10,16 @@ const Home = () => {
         <input
           type="text"
           className="enter-user"
-          onChange={(e) => handleUserSet}
-          value={user}
-        ></input> 
-        <input type="submit" value="Submit" onClick={consolecheck}></input>
-    
+          onChange={(e) => handleUserSet(e.target.value)}
+        ></input>
+        <input type="submit" value="Submit" onClick={submitUserName}></input>
       </form>
+      {/* {topTracks.map((each) => {
+        const {track} = each;
+        return(
+          <h1>{track}</h1>
+        )
+      })} */}
     </div>
   );
 };
