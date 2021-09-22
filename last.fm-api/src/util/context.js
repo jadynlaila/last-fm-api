@@ -6,8 +6,30 @@ const MusicContext = React.createContext();
 
 export const MusicProvider = ({ children }) => {
   const [user, setUser] = useState("rj");
-  const [topTracks, setTopTracks] = useState([]);
   const [temp, setTemp] = useState("");
+
+  //ALBUM:
+  const [albumInfo, setalbumInfo] = useState([]);
+  const [albumTopTags, setAlbumTopTags] = useState([]);
+
+  //ARTIST:
+  const [artistInfo, setArtistInfo] = useState([]);
+  const [artistTopTags, setArtistTopTags] = useState([]);
+  const [artistSimilar, setArtistSimilar] = useState([]);
+  const [artistAlbums, setArtistAlbums] = useState([]);
+  const [artistTopTracks, setArtistTopTracks] = useState([]);
+
+  //CHART:
+  const [chartArtists, setChartArtists] = useState([]);
+  const [chartTopTags, setChartTopTags] = useState([]);
+  const [chartTopTracks, setChartTopTracks] = useState([]);
+
+  //LIBRARY
+  const [libraryArtists, setLibraryArtists] = useState([])
+
+  const [topTracks, setTopTracks] = useState([]);
+  const [globalTopTracks, setGlobalTopTracks] = useState([]);
+  const [topArtists, setTopArtists] = useState([]);
 
   const handleUserSet = (value) => {
     setTemp(value);
@@ -16,6 +38,25 @@ export const MusicProvider = ({ children }) => {
   const submitUserName = () => {
     setUser(temp);
   };
+
+  //ALBUMS:
+
+  const albumGetInfo = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=album.getinfo`
+      );
+      console.log(response);
+      const data = await response.json();
+      setTopTracks(data.toptracks.album);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    albumGetInfo();
+  }, [user]);
 
   const fetchTopTracks = async () => {
     try {
@@ -34,6 +75,43 @@ export const MusicProvider = ({ children }) => {
 
   useEffect(() => {
     fetchTopTracks();
+  }, [user]);
+
+  const fetchGlobalTopTracks = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=chart.gettoptracks`
+      );
+      console.log(response);
+      const data = await response.json();
+      console.log(data.toptracks);
+      setTopTracks(data.toptracks.track);
+      console.log(topTracks);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchGlobalTopTracks();
+  }, [user]);
+
+  const fetchGlobalTopArtists = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=user.gettopartists`
+      );
+      console.log(response);
+      const data = await response.json();
+      console.log(data.toptracks);
+      setTopTracks(data.toptracks.artist);
+      console.log(topTracks);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    fetchGlobalTopArtists();
   }, [user]);
 
   return (
