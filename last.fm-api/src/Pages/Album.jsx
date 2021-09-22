@@ -1,11 +1,17 @@
-import React from 'react'
+import React from "react";
+import { useMusicContext } from "../util/context";
 
 const Album = () => {
-    return (
-        <div>
-            album page here
-        </div>
-    )
-}
+  const { topTracks} = useMusicContext();
+  console.log(topTracks);
+  return (
+    <div>
+      {topTracks.map((each, index) => {
+        const { track, name} = each;
+        return <h1 key={index}>{name}</h1>;
+      })}
+    </div>
+  );
+};
 
-export default Album
+export default Album;

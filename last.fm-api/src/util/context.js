@@ -6,7 +6,7 @@ const MusicContext = React.createContext();
 
 export const MusicProvider = ({ children }) => {
   const [user, setUser] = useState("rj");
-  const [topTracks, setTopTracks] = useState("user.gettoptracks");
+  const [topTracks, setTopTracks] = useState([]);
   const [temp, setTemp] = useState("");
 
   const handleUserSet = (value) => {
@@ -20,12 +20,12 @@ export const MusicProvider = ({ children }) => {
   const fetchTopTracks = async () => {
     try {
       const response = await fetch(
-        `${API_ENDPOINT}&user=${user}&method=${topTracks}`
+        `${API_ENDPOINT}&user=${user}&method=user.gettoptracks`
       );
       console.log(response);
       const data = await response.json();
       console.log(data.toptracks);
-      setTopTracks(data.toptracks);
+      setTopTracks(data.toptracks.track);
       console.log(topTracks);
     } catch (error) {
       console.error(error);

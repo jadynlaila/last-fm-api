@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { useMusicContext } from "../util/context";
+import { Switch, Route } from "react-router-dom";
+import Album from './Album';
+import{ Link } from 'react-router-dom';
+
 
 const Home = () => {
-  const { setUser, user, handleUserSet, submitUserName, topTracks, fetchTopTracks } = useMusicContext();
+  const { user, handleUserSet, submitUserName, topTracks, fetchTopTracks } = useMusicContext();
   return (
     <div className="home">
       <form onSubmit={(e) => e.preventDefault()} user={user}>
@@ -14,13 +18,12 @@ const Home = () => {
         ></input>
         <input type="submit" value="Submit" onClick={submitUserName}></input>
       </form>
-      {/* {topTracks.map((each) => {
-        const {track} = each;
-        return(
-          <h1>{track}</h1>
-        )
-      })} */}
+      <Link to='/album'>
+        link to albums
+      </Link>
     </div>
+    
+
   );
 };
 
