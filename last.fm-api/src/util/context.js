@@ -8,13 +8,14 @@ export const MusicProvider = ({ children }) => {
   //STATES FOR PARAMS
   const [user, setUser] = useState("rj");
   const [temp, setTemp] = useState("");
-  const [album, setAlbum] = useState('');
-  const [artist, setArtist] = useState('');
-  const [tag, setTag] = useState('');
+  const [album, setAlbum] = useState('nurture');
+  const [artist, setArtist] = useState('cher');
+  const [tag, setTag] = useState('pop');
+  const [track, setTrack] = useState('booo')
 
   //STATES FOR USER DATA
   //ALBUM:
-  const [albumInfo, setalbumInfo] = useState([]);
+  const [albumInfo, setAlbumInfo] = useState([]);
   const [albumTopTags, setAlbumTopTags] = useState([]);
 
   //ARTIST:
@@ -38,7 +39,7 @@ export const MusicProvider = ({ children }) => {
   const [tagTopAlbums, setTagTopAlbums] = useState([]);
   const [tagTopArtists, setTagTopArtists] = useState([]);
   const [tagTopTags, setTagTopTags] = useState([]);
-  const [tagTopTracks, setTagTopTracks] = useState([]);
+  const [tagTopTracks, setTagTopTracks] = useState([])
   const [tagWeeklyChartList, setTagWeeklyChartList] = useState([]);
 
   //TRACK
@@ -52,9 +53,9 @@ export const MusicProvider = ({ children }) => {
   const [userLovedTracks, setUserLovedTracks] = useState([]);
   const [userRecentTracks, setUserRecentTracks] = useState([]);
   const [userTopAlbums, setUserTopAlbums] = useState([]);
-  const [userArtists, setUserArtists] = useState([]);
-  const [userTopTags, setuserTopTags] = useState([]);
-  const [topTracks, setTopTracks] = useState([]);
+  const [userTopArtists, setUserTopArtists] = useState([]);
+  const [userTopTags, setUserTopTags] = useState([]);
+  const [userTopTracks, setuserTopTracks] = useState([])
   const [userWeeklyAlbumChart, setUserWeeklyAlbumChart] = useState([]);
   const [userWeeklyArtistChart, setUserWeeklyArtistChart] = useState([]);
   const [userWeeklyChartList, setuserWeeklyChartList] = useState([]);
@@ -69,7 +70,10 @@ export const MusicProvider = ({ children }) => {
   const submitUserName = () => {
     setUser(temp);
   };
-
+/////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////DONT FORGET TO CHECK WHAT OTHER ADDITIONAL PARAMS 
+  /////////////////// I CAN ADD FOR ADDITIONAL INFORMATION
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //FETCHING ALBUM DATA
   // const [albumInfo, setalbumInfo] = useState([]);
   // const [albumTopTags, setAlbumTopTags] = useState([]);
@@ -79,7 +83,7 @@ export const MusicProvider = ({ children }) => {
         `${API_ENDPOINT}&user=${user}&method=album.getinfo&album=${album}&artist=${artist}`
       );
       const data = await response.json();
-      setalbumInfo(data.album);
+      setAlbumInfo(data.album);
     } catch (error) {
       console.error(error);
     }
@@ -92,7 +96,7 @@ export const MusicProvider = ({ children }) => {
   const fetchAlbumTopTags = async () => {
     try {
       const response = await fetch(
-        `${API_ENDPOINT}&user=${user}&method=album.gettoptags`
+        `${API_ENDPOINT}&user=${user}&method=album.gettoptags&album=${album}&artist=${artist}`
       );
       const data = await response.json();
       setAlbumTopTags(data.toptags);
@@ -117,7 +121,7 @@ export const MusicProvider = ({ children }) => {
   const fetchArtistInfo = async () => {
     try {
       const response = await fetch(
-        `${API_ENDPOINT}&user=${user}&method=album.gettoptags`
+        `${API_ENDPOINT}&user=${user}&method=artist.getinfo&artist${artist}`
       );
       const data = await response.json();
       setArtistInfo(data.artist);
@@ -149,7 +153,7 @@ export const MusicProvider = ({ children }) => {
   const fetchArtistTopTracks = async () => {
     try {
       const response = await fetch(
-        `${API_ENDPOINT}&user=${user}&method=artist.toptracks`
+        `${API_ENDPOINT}&user=${user}&method=artist.gettoptracks&artist=${artist}`
       );
       const data = await response.json();
       setArtistTopTags(data.toptracks);
@@ -246,13 +250,17 @@ export const MusicProvider = ({ children }) => {
   // const [tagTopTracks, setTagTopTracks] = useState([]);
   // const [tagWeeklyChartList, setTagWeeklyChartList] = useState([]);
 
+  ///////////////////////////////////////
+  ///////////DONT FORGET
+  /////////FOR MOST OF THESE
+  ///////////ADD TAG={TAG} IN HTML/JSX 
   const fetchTagInfo = async () => {
     try {
       const response = await fetch(
         `${API_ENDPOINT}&user=${user}&method=tag.getinfo&tag=${tag}`
       );
       const data = await response.json();
-      setTagInfo(data.artists);
+      setTagInfo(data.tag);
     } catch (error) {
       console.error(error);
     }
@@ -262,27 +270,273 @@ export const MusicProvider = ({ children }) => {
     fetchTagInfo();
   }, [user]);
 
+  const fetchTagSimilar = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=tag.getsimilar&tag=${tag}`
+      );
+      const data = await response.json();
+      setTagSimilar(data.tag);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTagSimilar();
+  }, [user]);
+
+  const fetchTagTopAlbums = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=tag.gettopalbums&tag=${tag}`
+      );
+      const data = await response.json();
+      setTagTopAlbums(data.topalbums);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTagTopAlbums();
+  }, [user]);
+
+  const fetchTagTopArtists = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=tag.gettopartists&tag=${tag}`
+      );
+      const data = await response.json();
+      setTagTopArtists(data.topalbums);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTagTopArtists();
+  }, [user]);
+
+  const fetchTagTopTracks = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=tag.gettoptracks&tag=${tag}`
+      );
+      const data = await response.json();
+      setTagTopTracks(data.toptracks);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTagTopTracks();
+  }, [user]);
+
+  const fetchTagWeeklyChartList = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=tag.getweeklychartlist&tag=${tag}`
+      );
+      const data = await response.json();
+      setTagWeeklyChartList(data.weeklychartlist);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTagWeeklyChartList();
+  }, [user]);
+
+  //SET TRACK DATA
+  // const [trackInfo, setTrackInfo] = useState([]);
+  // const [trackSimilar, setTrackSimilar] = useState([]);
+  // const [trackTopTags, setTrackTopTags] = useState([]);
+
+  const fetchTrackInfo = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=track.getinfo&artist=${artist}&track=${track}`
+      );
+      const data = await response.json();
+      setTrackInfo(data.track);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTrackInfo();
+  }, [user]);
+
+  const fetchTrackSimilar = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=track.getsimilar&artist=${artist}&track=${track}`
+      );
+      const data = await response.json();
+      setTrackInfo(data.similartracks);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTrackSimilar();
+  }, [user]);
+
+  const fetchTrackTags = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=track.gettoptag&artist=${artist}&track=${track}`
+      );
+      const data = await response.json();
+      setTrackInfo(data.toptags);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTrackTags();
+  }, [user]);
+
+  //FETCH USER DATA
+  // const [userFriends, setUserFriends] = useState([]);
+  // const [userInfo, setUserInfo] = useState([]);
+  // const [userLovedTracks, setUserLovedTracks] = useState([]);
+  // const [userRecentTracks, setUserRecentTracks] = useState([]);
+  // const [userTopAlbums, setUserTopAlbums] = useState([]);
+  // const [userArtists, setUserArtists] = useState([]);
+  // const [userTopTags, setuserTopTags] = useState([]);
+  // const [topTracks, setTopTracks] = useState([]);
+  // const [userWeeklyAlbumChart, setUserWeeklyAlbumChart] = useState([]);
+  // const [userWeeklyArtistChart, setUserWeeklyArtistChart] = useState([]);
+  // const [userWeeklyChartList, setuserWeeklyChartList] = useState([]);
+  // const [userWeeklyTrackChart, setUserWeeklyTrackChart] = useState([]);
+
+  const fetchUserFriends = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=user.getfriends`
+      );
+      const data = await response.json();
+      setUserFriends(data.friends);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserFriends();
+  }, [user]);
+
+  const fetchUserInfo = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=user.getinfo`
+      );
+      const data = await response.json();
+      setUserInfo(data.user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, [user]);
+
+  const fetchUserLovedTracks = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=user.getlovedtracks`
+      );
+      const data = await response.json();
+      setUserLovedTracks(data.lovedtracks);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserLovedTracks();
+  }, [user]);
+
+  const fetchUserRecentTracks = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=user.getrecenttracks`
+      );
+      const data = await response.json();
+      setUserRecentTracks(data.recenttracks);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserRecentTracks();
+  }, [user]);
+
+  const fetchUserTopAlbums = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=user.getlopalbums`
+      );
+      const data = await response.json();
+      setUserTopAlbums(data.topalbums);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserTopAlbums();
+  }, [user]);
 
 
+  const fetchUserTopArtists = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=user.gettopartists`
+      );
+      const data = await response.json();
+      setUserTopArtists(data.topartists);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
+    fetchUserTopArtists();
+  }, [user]);
 
+  const fetchUserTopTags = async () => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}&user=${user}&method=user.gettoptags`
+      );
+      const data = await response.json();
+      setuserTopTags(data.toptags);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
+    fetchUserTopTags();
+  }, [user]);
 
-
-
-
-
-
-
-
-
-  const fetchTopTracks = async () => {
+  const fetchUserTopTracks = async () => {
     try {
       const response = await fetch(
         `${API_ENDPOINT}&user=${user}&method=user.gettoptracks`
       );
       const data = await response.json();
-      setTopTracks(data.toptracks.track);
+      setUserTopTracks(data.toptracks.track);
     } catch (error) {
       console.error(error);
     }
@@ -292,36 +546,8 @@ export const MusicProvider = ({ children }) => {
     fetchTopTracks();
   }, [user]);
 
-  const fetchGlobalTopTracks = async () => {
-    try {
-      const response = await fetch(
-        `${API_ENDPOINT}&user=${user}&method=chart.gettoptracks`
-      );
-      const data = await response.json();
-      setTopTracks(data.toptracks.track);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+ 
 
-  useEffect(() => {
-    fetchGlobalTopTracks();
-  }, [user]);
-
-  const fetchGlobalTopArtists = async () => {
-    try {
-      const response = await fetch(
-        `${API_ENDPOINT}&user=${user}&method=user.gettopartists`
-      );
-      const data = await response.json();
-      setTopTracks(data.toptracks.artist);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  useEffect(() => {
-    fetchGlobalTopArtists();
-  }, [user]);
 
   return (
     <MusicContext.Provider
@@ -330,7 +556,7 @@ export const MusicProvider = ({ children }) => {
         handleUserSet,
         submitUserName,
         API_ENDPOINT,
-        topTracks,
+        userTopTracks,
         fetchTopTracks,
       }}
     >

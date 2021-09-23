@@ -2,8 +2,8 @@ import React from "react";
 import { useMusicContext } from "../util/context";
 
 const Album = () => {
-  const { topTracks} = useMusicContext();
-  console.log(topTracks);
+  const { userTopTracks} = useMusicContext();
+  console.log(userTopTracks);
   return (
     <div>
       {topTracks.map((each, index) => {
