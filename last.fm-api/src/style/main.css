@@ -1,1 +1,10 @@
-/*# sourceMappingURL=main.css.map */
+.home {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.home form {
+  background: orange;
+  width: 30vw;
+  height: 20vh;
+}/*# sourceMappingURL=main.css.map */

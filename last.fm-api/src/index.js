@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
+import './style/main.css';
 
 import { MusicProvider } from "./util/context";
 
