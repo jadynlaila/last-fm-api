@@ -8,8 +8,8 @@ export const MusicProvider = ({ children }) => {
   //STATES FOR PARAMS
   const [user, setUser] = useState("rj");
   const [temp, setTemp] = useState("");
-  const [album, setAlbum] = useState('nurture');
-  const [artist, setArtist] = useState('cher');
+  const [album, setAlbum] = useState('nectar');
+  const [artist, setArtist] = useState('joji');
   const [tag, setTag] = useState('pop');
   const [track, setTrack] = useState('booo')
 
@@ -55,7 +55,7 @@ export const MusicProvider = ({ children }) => {
   const [userTopAlbums, setUserTopAlbums] = useState([]);
   const [userTopArtists, setUserTopArtists] = useState([]);
   const [userTopTags, setUserTopTags] = useState([]);
-  const [userTopTracks, setuserTopTracks] = useState([])
+  const [userTopTracks, setUserTopTracks] = useState([])
   const [userWeeklyAlbumChart, setUserWeeklyAlbumChart] = useState([]);
   const [userWeeklyArtistChart, setUserWeeklyArtistChart] = useState([]);
   const [userWeeklyChartList, setuserWeeklyChartList] = useState([]);
@@ -80,7 +80,7 @@ export const MusicProvider = ({ children }) => {
   const fetchAlbumInfo = async () => {
     try {
       const response = await fetch(
-        `${API_ENDPOINT}&user=${user}&method=album.getinfo&album=${album}&artist=${artist}`
+        `${API_ENDPOINT}&method=album.getinfo&album=${album}&artist=${artist}`
       );
       const data = await response.json();
       setAlbumInfo(data.album);
@@ -390,7 +390,7 @@ export const MusicProvider = ({ children }) => {
   const fetchTrackTags = async () => {
     try {
       const response = await fetch(
-        `${API_ENDPOINT}&user=${user}&method=track.gettoptag&artist=${artist}&track=${track}`
+        `${API_ENDPOINT}&user=${user}&method=track.gettoptags&artist=${artist}&track=${track}`
       );
       const data = await response.json();
       setTrackInfo(data.toptags);
@@ -484,7 +484,7 @@ export const MusicProvider = ({ children }) => {
   const fetchUserTopAlbums = async () => {
     try {
       const response = await fetch(
-        `${API_ENDPOINT}&user=${user}&method=user.getlopalbums`
+        `${API_ENDPOINT}&user=${user}&method=user.gettopalbums`
       );
       const data = await response.json();
       setUserTopAlbums(data.topalbums);
@@ -520,7 +520,7 @@ export const MusicProvider = ({ children }) => {
         `${API_ENDPOINT}&user=${user}&method=user.gettoptags`
       );
       const data = await response.json();
-      setuserTopTags(data.toptags);
+      setUserTopTags(data.toptags);
     } catch (error) {
       console.error(error);
     }
@@ -543,7 +543,7 @@ export const MusicProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchTopTracks();
+    fetchUserTopTracks();
   }, [user]);
 
  
@@ -557,7 +557,7 @@ export const MusicProvider = ({ children }) => {
         submitUserName,
         API_ENDPOINT,
         userTopTracks,
-        fetchTopTracks,
+        fetchUserTopTracks,
       }}
     >
       {children}

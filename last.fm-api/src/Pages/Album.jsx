@@ -6,7 +6,7 @@ const Album = () => {
   console.log(userTopTracks);
   return (
     <div>
-      {topTracks.map((each, index) => {
+      {userTopTracks.map((each, index) => {
         const { track, name} = each;
         return <h1 key={index}>{name}</h1>;
       })}
